@@ -49,7 +49,7 @@ public class NodeTree<T>
      * Returns the amount of nodes in the tree
      * @return The amount of nodes in the tree
      */
-    public int GetTreeSize()
+    public int getTreeSize()
     {
         return sumNodes(Root);
     }
@@ -80,7 +80,7 @@ public class NodeTree<T>
      */
     public void addNode(Node<T> node) throws Exception {
 
-        if (GetTreeSize() == MaxNodes)
+        if (getTreeSize() == MaxNodes)
             throw new Exception("Tree full");
 
         node._maxChildren = MaxBreadth;
@@ -157,5 +157,18 @@ public class NodeTree<T>
             str.append(node.Name);
         }
         return str.toString();
+    }
+
+    public Node<T> getNode(int nodeIndex) throws Exception {
+
+        BreathFirstVisitor<T> visitor = new BreathFirstVisitor<>();
+        visitTree(visitor);
+
+        var nodesInTree = visitor.getNodes();
+
+        if(nodeIndex >= nodesInTree.size())
+            throw new Exception("Attempted to access node that doesnt exist");
+
+        return nodesInTree.get(nodeIndex);
     }
 }

@@ -17,7 +17,7 @@ public abstract class GeneticFunction<T> extends Node<T> {
 
     @Override
     public T getBaseValue(){
-        return Children.get(0).getBaseValue();
+        return _children.get(0).getBaseValue();
     }
 
 }

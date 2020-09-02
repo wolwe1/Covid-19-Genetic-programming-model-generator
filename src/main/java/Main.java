@@ -1,6 +1,8 @@
 import data.infrastructure.Covid19FileReader;
+import gpLibrary.concepts.FunctionalSet;
 import gpLibrary.infrastructure.GeneticAlgorithm;
 import gpLibrary.infrastructure.ITreeManager;
+import gpLibrary.primitives.other.IFitnessFunction;
 import gpLibrary.primitives.other.PopulationMember;
 import helpers.ArtDrawer;
 import helpers.FileManager;
@@ -37,13 +39,23 @@ public class Main {
 
     public static void main(String[] args) throws Exception {
 
+        int seed = 1;
+
+        //Load data
         Covid19FileReader fileReader = greet();
         var covidEntries = fileReader.getData();
         System.out.println("Successfully loaded file,"+ covidEntries.size() + " entries read.");
 
+        //Create components
+        IFitnessFunction fitnessFunction = new ;
+        FunctionalSet<Double> functionalSet = new FunctionalSet<>();
         ITreeManager<Double> treeManager = new CovidTreeManager();
         }
-        GeneticAlgorithm<Double> geneticAlgorithm = new GeneticAlgorithm<>(2);
+        GeneticAlgorithm<Double> geneticAlgorithm = new GeneticAlgorithm<>(2,treeManager);
+
+
+        //Do work
+
 //        NodeTree<Double> tree = new NodeTree<>(3,2);
 //        GeneticFunction<Double> addFunc = new AddFunction("Add 1");
 //        GeneticFunction<Double> addFunc2 = new AddFunction("Add 2");

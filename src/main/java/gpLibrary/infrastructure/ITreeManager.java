@@ -13,9 +13,9 @@ import java.util.Random;
  */
 public abstract class ITreeManager<T> {
 
-    private List<PopulationMember<T>> _population;
-    private IFitnessFunction _fitnessFunction;
-    private final Random _randomNumberGenerator;
+    protected List<PopulationMember<T>> _population;
+    protected IFitnessFunction _fitnessFunction;
+    protected final Random _randomNumberGenerator;
 
     protected ITreeManager(IFitnessFunction fitnessFunction, long seed){
         _fitnessFunction = fitnessFunction;
@@ -54,7 +54,7 @@ public abstract class ITreeManager<T> {
      * @Assumption  The tree must have its fitness calculated
      * @return A newly created tree, no guarantee of uniqueness
      */
-    public abstract PopulationMember<T> createRandom();
+    public abstract PopulationMember<T> createRandom() throws Exception;
 
     /**
      * Selects a random member of the population that has not been visited yet
@@ -88,7 +88,7 @@ public abstract class ITreeManager<T> {
      * @param toBeMutated The tree that is to be mutated
      * @return A mutated version of the tree
      */
-    public abstract PopulationMember<T> createMutant(PopulationMember<T> toBeMutated);
+    public abstract PopulationMember<T> createMutant(PopulationMember<T> toBeMutated) throws Exception;
 
     /**
      * Creates copies of the provided trees, with chosen features swapped
@@ -96,7 +96,7 @@ public abstract class ITreeManager<T> {
      * @param memberTwo The counterpart of the crossover
      * @return A list containing two new trees, that are crossed over versions of the ones provided
      */
-    public abstract List<PopulationMember<T>> crossOver(PopulationMember<T> memberOne, PopulationMember<T> memberTwo);
+    public abstract List<PopulationMember<T>> crossOver(PopulationMember<T> memberOne, PopulationMember<T> memberTwo) throws Exception;
 
     /**
      * Sets the new population and ensures their fitness is calculated

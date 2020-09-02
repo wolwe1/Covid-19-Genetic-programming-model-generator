@@ -72,11 +72,31 @@ public class CovidEntry implements IFileEntry {
             }
 
 
+            //Reformat dates to single format
+
+            copy.observationDate = new SimpleDateFormat("yyyy-MM-dd").parse(copy.observationDate.toString());
+            copy.lastUpdate = new SimpleDateFormat("yyyy-MM-dd").parse(copy.lastUpdate.toString());
             return copy;
 
         }catch(Exception e){
 
             throw new Exception("Could not parse covid entry: " + e.getMessage());
         }
+    }
+
+    public CovidEntry makeCopy() {
+
+        CovidEntry newEntry = new CovidEntry();
+        newEntry.serialNumber = serialNumber;
+        newEntry.observationDate = observationDate;
+        newEntry.province = province;
+        newEntry.state = state;
+        newEntry.country = country;
+        newEntry.lastUpdate = lastUpdate;
+        newEntry.confirmedCases = confirmedCases;
+        newEntry.deaths = deaths;
+        newEntry.recoveries = recoveries;
+
+        return newEntry;
     }
 }

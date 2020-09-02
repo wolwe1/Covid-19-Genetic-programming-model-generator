@@ -12,4 +12,10 @@ public class PopulationMember<T> {
     public double fitness = Double.NEGATIVE_INFINITY;
     public String id;
     public boolean visited;
+
+    public PopulationMember(NodeTree<T> innerTree){
+        tree = innerTree;
+        id = innerTree.getCombination();
+        visited = false;
+    }
 }

@@ -20,4 +20,17 @@ public class FunctionalSet<T>
     public void addFunction( GeneticFunction<T> newFunc){
         _functions.add(newFunc);
     }
+
+    public int size(){
+        return _functions.size();
+    }
+
+    public GeneticFunction<T> get(int index) throws Exception {
+
+        if(index < 0 || index >= size())
+            throw new Exception("Attempted to access function out of range");
+
+        return (GeneticFunction<T>) _functions.get(index).getCopy();
+
+    }
 }

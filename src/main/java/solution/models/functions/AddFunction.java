@@ -14,7 +14,7 @@ public class AddFunction extends GeneticFunction<Double> {
 
         Double total = getBaseValue();
 
-        for (Node<Double> child : Children) {
+        for (Node<Double> child : _children) {
             total += child.getValue();
         }
 
