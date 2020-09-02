@@ -1,9 +1,14 @@
 import data.infrastructure.Covid19FileReader;
+import gpLibrary.infrastructure.GeneticAlgorithm;
+import gpLibrary.infrastructure.ITreeManager;
+import gpLibrary.primitives.other.PopulationMember;
 import helpers.ArtDrawer;
 import helpers.FileManager;
+import solution.infrastructure.CovidTreeManager;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.util.List;
 
 public class Main {
 
@@ -36,6 +41,9 @@ public class Main {
         var covidEntries = fileReader.getData();
         System.out.println("Successfully loaded file,"+ covidEntries.size() + " entries read.");
 
+        ITreeManager<Double> treeManager = new CovidTreeManager();
+        }
+        GeneticAlgorithm<Double> geneticAlgorithm = new GeneticAlgorithm<>(2);
 //        NodeTree<Double> tree = new NodeTree<>(3,2);
 //        GeneticFunction<Double> addFunc = new AddFunction("Add 1");
 //        GeneticFunction<Double> addFunc2 = new AddFunction("Add 2");
