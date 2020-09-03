@@ -1,15 +1,17 @@
-package data.models;
+package solution.models.terminals;
 
-import gpLibrary.primitives.functions.GeneticFunction;
+import data.models.CovidEntry;
+import data.models.CovidPredictionMode;
 import gpLibrary.primitives.terminals.TerminalNode;
 
 public class CovidTerminal extends TerminalNode<Double> {
 
-    private CovidEntry _entry;
+    private final CovidEntry _entry;
     private CovidPredictionMode _mode;
 
     public CovidTerminal(CovidEntry entry) {
         super(entry.observationDate.toString());
+        _entry = entry;
     }
 
     @Override
@@ -36,7 +38,7 @@ public class CovidTerminal extends TerminalNode<Double> {
         return newTerminal;
     }
 
-    public void changeMode(CovidPredictionMode mode){
+    public void setMode(CovidPredictionMode mode){
         _mode = mode;
     }
 }

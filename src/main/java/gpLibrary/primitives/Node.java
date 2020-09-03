@@ -1,5 +1,7 @@
 package gpLibrary.primitives;
 
+import gpLibrary.primitives.terminals.TerminalNode;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,7 +10,7 @@ public abstract class Node<T>
     protected final List<Node<T>> _children;
 
     public Node<T> Parent;
-    public final String Name;
+    public final String name;
     public int _maxChildren;
     public int _level = 0;
     public int _drawPos = 0;
@@ -17,13 +19,13 @@ public abstract class Node<T>
     protected Node(int maxChildren,String name)
     {
         _maxChildren = maxChildren;
-        Name = name;
+        this.name = name;
         _children = new ArrayList<>();
     }
 
     protected Node(String name)
     {
-        Name = name;
+        this.name = name;
         _children = new ArrayList<>();
     }
 
@@ -49,7 +51,10 @@ public abstract class Node<T>
 
     public boolean IsFull()
     {
-        return _children.size() == _maxChildren;
+        if(this instanceof TerminalNode)
+            return true;
+        else
+            return _children.size() == _maxChildren;
     }
 
     public abstract T getValue();
@@ -72,5 +77,18 @@ public abstract class Node<T>
                 return i;
         }
         return -1;
+    }
+
+    public void removeLeaves() {
+        //Check children
+        for (int i = _children.size() - 1; i >= 0; i--) {
+            Node<T> child = _children.get(i);
+
+            if(child instanceof TerminalNode)
+                _children.remove(child);
+            else
+                child.removeLeaves();
+        }
+
     }
 }

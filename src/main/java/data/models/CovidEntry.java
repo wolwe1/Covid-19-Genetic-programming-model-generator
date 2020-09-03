@@ -73,9 +73,10 @@ public class CovidEntry implements IFileEntry {
 
 
             //Reformat dates to single format
+            var universalFormat = new SimpleDateFormat("yyyy-MM-dd");
 
-            copy.observationDate = new SimpleDateFormat("yyyy-MM-dd").parse(copy.observationDate.toString());
-            copy.lastUpdate = new SimpleDateFormat("yyyy-MM-dd").parse(copy.lastUpdate.toString());
+            copy.observationDate = universalFormat.parse(universalFormat.format(copy.observationDate));
+            copy.lastUpdate = universalFormat.parse(universalFormat.format(copy.lastUpdate));
             return copy;
 
         }catch(Exception e){

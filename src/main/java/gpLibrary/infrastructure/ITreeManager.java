@@ -14,10 +14,10 @@ import java.util.Random;
 public abstract class ITreeManager<T> {
 
     protected List<PopulationMember<T>> _population;
-    protected IFitnessFunction _fitnessFunction;
+    protected IFitnessFunction<T> _fitnessFunction;
     protected final Random _randomNumberGenerator;
 
-    protected ITreeManager(IFitnessFunction fitnessFunction, long seed){
+    protected ITreeManager(IFitnessFunction<T> fitnessFunction, long seed){
         _fitnessFunction = fitnessFunction;
         _randomNumberGenerator = new Random(seed);
         _population = new ArrayList<>();
@@ -102,7 +102,7 @@ public abstract class ITreeManager<T> {
      * Sets the new population and ensures their fitness is calculated
      * @param newPopulation The new population for the class to manage
      */
-    public void setNewPopulation(List<PopulationMember<T>> newPopulation){
+    public void setNewPopulation(List<PopulationMember<T>> newPopulation) throws Exception {
         _population = newPopulation;
 
         for (PopulationMember<T> member : _population) {
@@ -111,7 +111,7 @@ public abstract class ITreeManager<T> {
         }
     }
 
-    public void set_fitnessFunction(IFitnessFunction _fitnessFunction) {
+    public void set_fitnessFunction(IFitnessFunction<T> _fitnessFunction) {
         this._fitnessFunction = _fitnessFunction;
     }
 }

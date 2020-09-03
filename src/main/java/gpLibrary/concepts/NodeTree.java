@@ -10,21 +10,21 @@ import java.util.Queue;
 public class NodeTree<T>
 {
     //Structure
-    public Node<T> Root;
-    public int Depth;
-    public final int MaxDepth;
-    public final int MaxBreadth;
+    public Node<T> root;
+    public int depth;
+    public final int maxDepth;
+    public final int maxBreadth;
 
-    private final int MaxNodes;
+    private final int _maxNodes;
 
     public NodeTree(int maxDepth,int maxBreadth)
     {
-        MaxDepth = maxDepth;
-        MaxBreadth = maxBreadth;
+        this.maxDepth = maxDepth;
+        this.maxBreadth = maxBreadth;
 
-        Root = null;
+        root = null;
 
-        MaxNodes = calculateMaximumSize(maxBreadth,maxDepth);
+        _maxNodes = calculateMaximumSize(maxBreadth,maxDepth);
     }
 
     /**
@@ -51,7 +51,7 @@ public class NodeTree<T>
      */
     public int getTreeSize()
     {
-        return sumNodes(Root);
+        return sumNodes(root);
     }
 
     /**
@@ -80,15 +80,15 @@ public class NodeTree<T>
      */
     public void addNode(Node<T> node) throws Exception {
 
-        if (getTreeSize() == MaxNodes)
+        if (getTreeSize() == _maxNodes)
             throw new Exception("Tree full");
 
-        node._maxChildren = MaxBreadth;
+        node._maxChildren = maxBreadth;
         //Empty tree
-        if (Root == null)
+        if (root == null)
         {
             node._level = 0;
-            Root = node;
+            root = node;
         }
         else
         {
@@ -105,7 +105,7 @@ public class NodeTree<T>
         Queue<Node<T>> queue = new ArrayDeque<>();
         Node<T> temp;
 
-        queue.add(Root);
+        queue.add(root);
 
         while (queue.size() != 0)
         {
@@ -130,7 +130,7 @@ public class NodeTree<T>
         Queue<Node<T>> queue = new ArrayDeque<>();
         Node<T> temp;
 
-        queue.add(Root);
+        queue.add(root);
 
         while (queue.size() != 0)
         {
@@ -154,7 +154,7 @@ public class NodeTree<T>
 
         StringBuilder str = new StringBuilder();
         for (Node<T> node : visitor.getNodes()) {
-            str.append(node.Name);
+            str.append(node.name);
         }
         return str.toString();
     }
@@ -170,5 +170,14 @@ public class NodeTree<T>
             throw new Exception("Attempted to access node that doesnt exist");
 
         return nodesInTree.get(nodeIndex);
+    }
+
+    public int getNumberOfPossibleLeafNodes() {
+        return (int) Math.pow(maxBreadth,maxDepth - 1);
+    }
+
+    public void clearLeaves() {
+
+        root.removeLeaves();
     }
 }

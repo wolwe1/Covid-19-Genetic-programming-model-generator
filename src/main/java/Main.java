@@ -1,16 +1,19 @@
 import data.infrastructure.Covid19FileReader;
+import data.models.CovidPredictionMode;
 import gpLibrary.concepts.FunctionalSet;
 import gpLibrary.infrastructure.GeneticAlgorithm;
 import gpLibrary.infrastructure.ITreeManager;
-import gpLibrary.primitives.other.IFitnessFunction;
-import gpLibrary.primitives.other.PopulationMember;
 import helpers.ArtDrawer;
 import helpers.FileManager;
+import solution.infrastructure.Covid19FitnessFunction;
 import solution.infrastructure.CovidTreeManager;
+import solution.infrastructure.primitives.AddFunction;
+import solution.infrastructure.primitives.DivisionFunction;
+import solution.infrastructure.primitives.MultiplicationFunction;
+import solution.infrastructure.primitives.SubtractFunction;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.util.List;
 
 public class Main {
 
@@ -47,12 +50,23 @@ public class Main {
         System.out.println("Successfully loaded file,"+ covidEntries.size() + " entries read.");
 
         //Create components
-        IFitnessFunction fitnessFunction = new ;
+        Covid19FitnessFunction fitnessFunction = new Covid19FitnessFunction(2);
         FunctionalSet<Double> functionalSet = new FunctionalSet<>();
-        ITreeManager<Double> treeManager = new CovidTreeManager();
-        }
+        functionalSet.addFunction( new AddFunction());
+        functionalSet.addFunction( new SubtractFunction());
+        functionalSet.addFunction( new MultiplicationFunction());
+        functionalSet.addFunction( new DivisionFunction());
+
+        CovidTreeManager treeManager = new CovidTreeManager(fitnessFunction,seed,functionalSet,covidEntries);
+        treeManager.setProblemValues(4,2);
+        treeManager.predictOn(CovidPredictionMode.Cases);
         GeneticAlgorithm<Double> geneticAlgorithm = new GeneticAlgorithm<>(2,treeManager);
 
+        geneticAlgorithm.setRates(0.3,0.3);
+        geneticAlgorithm.setNumberOfGenerations(2);
+        geneticAlgorithm.setPrint(true);
+
+        geneticAlgorithm.run();
 
         //Do work
 

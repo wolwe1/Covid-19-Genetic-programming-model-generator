@@ -2,7 +2,7 @@ package gpLibrary.primitives.other;
 
 import gpLibrary.concepts.NodeTree;
 
-public interface IFitnessFunction {
+public interface IFitnessFunction<T> {
 
     /**
      * Returns the highest or lowest value depending on fitness function implementation
@@ -13,10 +13,9 @@ public interface IFitnessFunction {
     /**
      * Calculates the fitness of the underlying tree returning the value
      * @param populationMember The package containing the tree
-     * @param <T> The underlying type of the tree
      * @return The fitness of the underlying tree
      */
-    <T> double calculateFitness(NodeTree<T> populationMember);
+    double calculateFitness(NodeTree<T> populationMember) throws Exception;
 
     /**
      * Evaluates if the fitness provided in the first parameter is better that that of the second
@@ -25,4 +24,5 @@ public interface IFitnessFunction {
      * @return True if the first fitness is better than the second else false
      */
     boolean firstFitterThanSecond(double firstFitness, double secondFitness);
+
 }

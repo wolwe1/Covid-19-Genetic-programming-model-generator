@@ -47,7 +47,7 @@ public class TreePrinter implements INodeVisitor<Double> {
         root._drawPos = (int)Math.pow(2, depth-1)*H_SPREAD;
         currDrawLevel = root._level;
         currSpaceCount = root._drawPos;
-        System.out.print(getSpace(root._drawPos) + root.Name);
+        System.out.print(getSpace(root._drawPos) + root.name);
 
         while (!q.isEmpty())
         {
@@ -114,7 +114,7 @@ public class TreePrinter implements INodeVisitor<Double> {
             }
         }
         int offset=0;
-        int numDigits = ele.Name.length();
+        int numDigits = ele.name.length();
         if (ele.Parent.getChild(0) == ele)
         {
             ele._drawPos = ele.Parent._drawPos - H_SPREAD*(depth-currDrawLevel+1);
@@ -128,7 +128,7 @@ public class TreePrinter implements INodeVisitor<Double> {
             offset -= numDigits;
         }
 
-        System.out.print (getSpace(ele._drawPos - currSpaceCount + offset) + ele.Name);
+        System.out.print (getSpace(ele._drawPos - currSpaceCount + offset) + ele.name);
         currSpaceCount = ele._drawPos + numDigits/2;
     }
 

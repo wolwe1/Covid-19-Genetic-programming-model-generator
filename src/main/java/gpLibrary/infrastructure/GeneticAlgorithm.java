@@ -54,7 +54,7 @@ public class GeneticAlgorithm<T> {
     /**
      * Creates the initial population using randomly generated trees
      */
-    private void createPopulation() {
+    private void createPopulation() throws Exception {
 
         for (int i = 0; i < _maxPopulationSize; i++) {
             _population.add( _treeManager.createRandom());
@@ -124,7 +124,7 @@ public class GeneticAlgorithm<T> {
         return crossoverMembers;
     }
 
-    private List<PopulationMember<T>> regenerate(int numberOfNewMembers) {
+    private List<PopulationMember<T>> regenerate(int numberOfNewMembers) throws Exception {
 
         List<PopulationMember<T>> newMembers = new ArrayList<>();
 
@@ -135,7 +135,7 @@ public class GeneticAlgorithm<T> {
         return newMembers;
     }
 
-    private List<PopulationMember<T>> mutate(int numOfTreesToMutate) {
+    private List<PopulationMember<T>> mutate(int numOfTreesToMutate) throws Exception {
         List<PopulationMember<T>> mutants = new ArrayList<>();
 
         for (int i = 0; i < numOfTreesToMutate; i++) {
@@ -153,6 +153,7 @@ public class GeneticAlgorithm<T> {
     public PopulationMember<T> run() throws Exception {
 
         createPopulation();
+        _treeManager.setNewPopulation(_population);
         PopulationMember<T> bestTree = null;
 
         for (int i = 0; i < _numGenerations; i++) {

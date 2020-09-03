@@ -1,13 +1,13 @@
 package solution.infrastructure;
 
 import data.models.CovidEntry;
-import data.models.CovidTerminal;
+import data.models.CovidPredictionMode;
+import solution.models.terminals.CovidTerminal;
 import gpLibrary.concepts.FunctionalSet;
 import gpLibrary.concepts.NodeTree;
 import gpLibrary.infrastructure.ITreeManager;
 import gpLibrary.primitives.Node;
 import gpLibrary.primitives.functions.GeneticFunction;
-import gpLibrary.primitives.other.IFitnessFunction;
 import gpLibrary.primitives.other.PopulationMember;
 
 import java.util.ArrayList;
@@ -21,11 +21,14 @@ public class CovidTreeManager extends ITreeManager<Double> {
     private int _maxTreeDepth;
     private int _treeChildCount;
     private int _maxTreeSize;
+    private CovidPredictionMode _predictOn;
 
-    public CovidTreeManager(IFitnessFunction fitnessFunction, long seed, FunctionalSet<Double> funcSet, List<CovidEntry> covidEntries) {
+    public CovidTreeManager(Covid19FitnessFunction fitnessFunction, long seed, FunctionalSet<Double> funcSet, List<CovidEntry> covidEntries,CovidPredictionMode predictOn) {
         super(fitnessFunction, seed);
         _functionalSet = funcSet;
+        _predictOn = predictOn;
         _terminalNodes = convertEntriesToNodes(covidEntries);
+        fitnessFunction.setDomain(_terminalNodes);
     }
 
     @Override
@@ -35,7 +38,7 @@ public class CovidTreeManager extends ITreeManager<Double> {
 
         //Tree is full without terminals at size = (maxsize - 1)/ child count
         int nodesBeforeTerminals = (_maxTreeSize - 1)/_treeChildCount;
-        while(tree.getTreeSize() <= nodesBeforeTerminals){
+        while(tree.getTreeSize() < nodesBeforeTerminals){
             int randomFunc = _randomNumberGenerator.nextInt(_functionalSet.size());
             tree.addNode(_functionalSet.get(randomFunc));
         }
@@ -97,9 +100,36 @@ public class CovidTreeManager extends ITreeManager<Double> {
 
         for (CovidEntry covidEntry : covidEntries) {
             CovidTerminal terminal = new CovidTerminal(covidEntry);
+            terminal.setMode(_predictOn);
             terminalNodes.add(terminal);
         }
 
         return terminalNodes;
+    }
+
+    public void setProblemValues(int history,int nodeChildCount){
+
+        int treeDepth = 1;
+        _historyCount = history;
+        _treeChildCount = nodeChildCount;
+
+        do{
+            double layerAboveCount = (double) history / nodeChildCount;
+            treeDepth ++;
+            history = (int)layerAboveCount;
+        }while (history > 1);
+
+        _maxTreeDepth = treeDepth;
+
+        int maxTreeSize = 0;
+        for (int i = _maxTreeDepth-1; i >= 0; i--) {
+            maxTreeSize += Math.pow(_treeChildCount,i);
+        }
+
+        _maxTreeSize = maxTreeSize;
+    }
+
+    public void predictOn(CovidPredictionMode predictOn){
+        _predictOn = predictOn;
     }
 }
