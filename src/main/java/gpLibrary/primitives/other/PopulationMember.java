@@ -18,4 +18,18 @@ public class PopulationMember<T> {
         id = innerTree.getCombination();
         visited = false;
     }
+
+    public void updateId(){
+        id = tree.getCombination();
+    }
+
+    public PopulationMember<T> getCopy() throws Exception {
+
+        PopulationMember<T> newMember = new PopulationMember<>(tree.getCopy());
+        newMember.id = id;
+        newMember.visited = visited;
+        newMember.fitness = fitness;
+
+        return newMember;
+    }
 }

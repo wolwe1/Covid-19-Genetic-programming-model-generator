@@ -2,6 +2,7 @@ package solution.infrastructure;
 
 import data.models.CovidEntry;
 import data.models.CovidPredictionMode;
+import gpLibrary.infrastructure.Statistics;
 import solution.models.terminals.CovidTerminal;
 import gpLibrary.concepts.FunctionalSet;
 import gpLibrary.concepts.NodeTree;
@@ -23,8 +24,8 @@ public class CovidTreeManager extends ITreeManager<Double> {
     private int _maxTreeSize;
     private CovidPredictionMode _predictOn;
 
-    public CovidTreeManager(Covid19FitnessFunction fitnessFunction, long seed, FunctionalSet<Double> funcSet, List<CovidEntry> covidEntries,CovidPredictionMode predictOn) {
-        super(fitnessFunction, seed);
+    public CovidTreeManager(Covid19FitnessFunction fitnessFunction, long seed, FunctionalSet<Double> funcSet, Statistics<Double> stats, List<CovidEntry> covidEntries, CovidPredictionMode predictOn) {
+        super(fitnessFunction, stats, seed);
         _functionalSet = funcSet;
         _predictOn = predictOn;
         _terminalNodes = convertEntriesToNodes(covidEntries);
@@ -43,27 +44,54 @@ public class CovidTreeManager extends ITreeManager<Double> {
             tree.addNode(_functionalSet.get(randomFunc));
         }
 
-        return new PopulationMember<>(tree);
+        PopulationMember<Double> popMember = new PopulationMember<>(tree);
+        popMember.fitness = _fitnessFunction.getWorstPossibleValue();
+        return popMember;
     }
+
+//    @Override
+//    public void setNewPopulation(List<PopulationMember<Double>> newPopulation) throws Exception {
+//        for (PopulationMember<Double> populationMember : newPopulation) {
+//            populationMember.m
+//        }
+//        super.setNewPopulation(newPopulation);
+//    }
 
     @Override
     public PopulationMember<Double> createMutant(PopulationMember<Double> toBeMutated) throws Exception {
 
         int randomPoint = _randomNumberGenerator.nextInt(toBeMutated.tree.getTreeSize());
-        int randomFunc = _randomNumberGenerator.nextInt(_functionalSet.size());
-
         Node<Double> nodeToExchange = toBeMutated.tree.getNode(randomPoint);
+
+        int randomFunc = _randomNumberGenerator.nextInt(_functionalSet.size());
         GeneticFunction<Double> nodeReplacing = _functionalSet.get(randomFunc);
 
+        //Ensure a different node is actually swapped in
+        while(nodeReplacing.name == nodeToExchange.name){
+            randomFunc = _randomNumberGenerator.nextInt(_functionalSet.size());
+            nodeReplacing = _functionalSet.get(randomFunc);
+        }
+
+        nodeReplacing = (GeneticFunction<Double>) nodeToExchange.replicate(nodeReplacing);
         nodeReplacing.Parent = nodeToExchange.Parent;
         for (Node<Double> child : nodeToExchange.getChildren()) {
             nodeReplacing.addChild(child);
         }
 
-        //Find the node being replaced place in parents children
-        int indexOfNode = nodeToExchange.Parent.getIndexOfChild(nodeToExchange);
-        nodeToExchange.Parent.setChild(indexOfNode,nodeReplacing);
+        if(nodeToExchange.Parent != null){
+            //Find the node being replaced place in parents children
+            int indexOfNode = nodeToExchange.Parent.getIndexOfChild(nodeToExchange);
+            nodeToExchange.Parent.setChild(indexOfNode,nodeReplacing);
+            toBeMutated.updateId();
+        }else{
+            //Node has no parent and therefore is a full tree by itself
+            NodeTree<Double> newTree = new NodeTree<Double>(toBeMutated.tree.maxDepth,toBeMutated.tree.maxBreadth);
+            newTree.addNode(nodeReplacing);
+            toBeMutated.tree = newTree;
+            toBeMutated.updateId();
+        }
 
+        toBeMutated.fitness = _fitnessFunction.getWorstPossibleValue();
         return toBeMutated;
     }
 
@@ -72,9 +100,8 @@ public class CovidTreeManager extends ITreeManager<Double> {
 
         List<PopulationMember<Double>> members = new ArrayList<>();
 
-
         //Symmetric crossover
-        int randomPoint = _randomNumberGenerator.nextInt(memberOne.tree.getTreeSize());
+        int randomPoint = _randomNumberGenerator.nextInt(memberOne.tree.getTreeSize()-1) + 1;
         Node<Double> nodeToExchangeInFirstTree = memberOne.tree.getNode(randomPoint);
         Node<Double> nodeToExchangeInSecondTree = memberTwo.tree.getNode(randomPoint);
 
@@ -88,6 +115,10 @@ public class CovidTreeManager extends ITreeManager<Double> {
         nodeToExchangeInFirstTree.Parent.setChild(indexOfFirstNode,copyOfSecond);
         nodeToExchangeInSecondTree.Parent.setChild(indexOfSecondNode,copyOfFirst);
 
+        memberOne.fitness = _fitnessFunction.getWorstPossibleValue();
+        memberOne.updateId();
+        memberTwo.fitness = _fitnessFunction.getWorstPossibleValue();
+        memberTwo.updateId();
         members.add( memberOne);
         members.add(memberTwo);
 

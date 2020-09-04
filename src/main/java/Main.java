@@ -3,25 +3,23 @@ import data.models.CovidPredictionMode;
 import gpLibrary.concepts.FunctionalSet;
 import gpLibrary.infrastructure.GeneticAlgorithm;
 import gpLibrary.infrastructure.ITreeManager;
+import gpLibrary.infrastructure.Statistics;
+import gpLibrary.primitives.other.PopulationMember;
 import helpers.ArtDrawer;
 import helpers.FileManager;
 import solution.infrastructure.Covid19FitnessFunction;
 import solution.infrastructure.CovidTreeManager;
-import solution.infrastructure.primitives.AddFunction;
-import solution.infrastructure.primitives.DivisionFunction;
-import solution.infrastructure.primitives.MultiplicationFunction;
-import solution.infrastructure.primitives.SubtractFunction;
+import solution.infrastructure.primitives.*;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.util.List;
 
 public class Main {
 
+    static ArtDrawer drawer = new ArtDrawer();
     public static Covid19FileReader greet() throws Exception {
 
-        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-
-        ArtDrawer drawer = new ArtDrawer();
         drawer.drawLine();
         drawer.draw("COVID-19 Forecaster");
         drawer.drawLine();
@@ -29,15 +27,21 @@ public class Main {
         FileManager fileManager = new FileManager();
         fileManager.setupDirectories();
 
+        Covid19FileReader fileReader = new Covid19FileReader(fileManager.baseDataDirectory);
         try{
-            Covid19FileReader fileReader = new Covid19FileReader(fileManager.baseDataDirectory);
             fileReader.readFile(fileManager.fileName);
-
-            return fileReader;
         }catch (Exception e){
             throw new Exception("Unable to successfully load file: " + e.getMessage());
         }
 
+        String country = fileManager.getCountry();
+
+        while( !fileReader.setCountry(country)){
+            System.out.println("Country not found");
+            country = fileManager.getCountry();
+        }
+
+        return fileReader;
     }
 
     public static void main(String[] args) throws Exception {
@@ -57,16 +61,19 @@ public class Main {
         functionalSet.addFunction( new MultiplicationFunction());
         functionalSet.addFunction( new DivisionFunction());
 
-        CovidTreeManager treeManager = new CovidTreeManager(fitnessFunction,seed,functionalSet,covidEntries);
-        treeManager.setProblemValues(4,2);
-        treeManager.predictOn(CovidPredictionMode.Cases);
-        GeneticAlgorithm<Double> geneticAlgorithm = new GeneticAlgorithm<>(2,treeManager);
+        Statistics<Double> statisticsHandler = new Statistics<>(new BasicStats());
+
+        CovidTreeManager treeManager = new CovidTreeManager(fitnessFunction,seed,functionalSet,statisticsHandler,covidEntries,CovidPredictionMode.Cases);
+        treeManager.setProblemValues(16,2);
+        GeneticAlgorithm<Double> geneticAlgorithm = new GeneticAlgorithm<>(100,2,treeManager);
 
         geneticAlgorithm.setRates(0.3,0.3);
-        geneticAlgorithm.setNumberOfGenerations(2);
+        geneticAlgorithm.setNumberOfGenerations(5);
         geneticAlgorithm.setPrint(true);
 
-        geneticAlgorithm.run();
+        var bestTrees = geneticAlgorithm.run();
+
+        printWinner(bestTrees);
 
         //Do work
 
@@ -98,5 +105,23 @@ public class Main {
 //        //treePrinter.print();
 //        //System.out.println("Tree value : " + tree.Root.getValue());
 //        treePrinter.drawTree(tree.Root);
+    }
+
+    private static void printWinner(List<PopulationMember<Double>> bestTrees) {
+        drawer.drawLine();
+        drawer.draw("Winner!");
+        drawer.drawLine();
+
+        double bestFitness = Double.POSITIVE_INFINITY;
+        PopulationMember<Double> ultimateBestTree = null;
+                
+        for (PopulationMember<Double> tree : bestTrees) {
+            if(tree.fitness < bestFitness){
+                bestFitness = tree.fitness;
+                ultimateBestTree = tree;
+            }
+        }
+        System.out.println("Combination : " + ultimateBestTree.id);
+        System.out.println("Fitness : " + ultimateBestTree.fitness);
     }
 }

@@ -16,11 +16,13 @@ public abstract class ITreeManager<T> {
     protected List<PopulationMember<T>> _population;
     protected IFitnessFunction<T> _fitnessFunction;
     protected final Random _randomNumberGenerator;
+    protected Statistics<T> _statistics;
 
-    protected ITreeManager(IFitnessFunction<T> fitnessFunction, long seed){
+    protected ITreeManager(IFitnessFunction<T> fitnessFunction,Statistics<T> stats, long seed){
         _fitnessFunction = fitnessFunction;
         _randomNumberGenerator = new Random(seed);
         _population = new ArrayList<>();
+        _statistics = stats;
     }
 
     /**
@@ -106,12 +108,18 @@ public abstract class ITreeManager<T> {
         _population = newPopulation;
 
         for (PopulationMember<T> member : _population) {
-            if(member.fitness == Double.NEGATIVE_INFINITY)
+            if(member.fitness == _fitnessFunction.getWorstPossibleValue())
                 member.fitness = _fitnessFunction.calculateFitness(member.tree);
+            member.visited = false;
         }
+        _statistics.addEntry(_population);
     }
 
     public void set_fitnessFunction(IFitnessFunction<T> _fitnessFunction) {
         this._fitnessFunction = _fitnessFunction;
+    }
+
+    public void printLatestStatistics(){
+        _statistics.printLatest();
     }
 }

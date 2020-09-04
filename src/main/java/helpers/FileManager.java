@@ -107,4 +107,9 @@ public class FileManager {
         }
     }
 
+    public String getCountry() throws IOException {
+
+        System.out.println("Please enter the name of the country you would like to load data on :");
+        return reader.readLine();
+    }
 }

@@ -33,8 +33,8 @@ public class ArtDrawer {
 
     public void draw(String word){
 
+        setup();
         _graphics.drawString(word, 6, 12);
-
 
         for (int y = 0; y < textHeight; y++) {
             StringBuilder stringBuilder = new StringBuilder();

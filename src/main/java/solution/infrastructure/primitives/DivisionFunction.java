@@ -14,13 +14,22 @@ public class DivisionFunction extends GeneticFunction<Double> {
         Double baseValue = _children.get(0).getValue();
 
         for (int i = 1; i < _children.size(); i++) {
-            baseValue /= _children.get(i).getValue();
+            Double val = _children.get(i).getValue();
+
+            if(val == 0d)
+                baseValue = 0d;
+            else
+                baseValue /= val;
         }
         return baseValue;
     }
 
     @Override
     public Node<Double> getCopy() {
-        return new DivisionFunction();
+        var newFunc = new DivisionFunction();
+        newFunc = (DivisionFunction) replicate(newFunc);
+
+        return newFunc;
     }
+
 }

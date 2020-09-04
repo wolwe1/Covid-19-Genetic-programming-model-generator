@@ -66,6 +66,7 @@ public abstract class Node<T>
         if(index < 0 || index >= _maxChildren)
             throw new Exception("Attempted to set a child out of range");
 
+        newChild.Parent = this;
         _children.set(index,newChild);
     }
 
@@ -89,6 +90,24 @@ public abstract class Node<T>
             else
                 child.removeLeaves();
         }
-
     }
+
+    public Node<T> replicate(Node<T> nodeToTransferTo){
+        nodeToTransferTo._maxChildren = _maxChildren;
+        nodeToTransferTo._depth = _depth;
+        nodeToTransferTo._drawPos = _drawPos;
+        nodeToTransferTo._level = _level;
+
+        return nodeToTransferTo;
+    }
+
+    public Node<T> deepCopy() throws Exception{
+        var copy = getCopy();
+
+        for (Node<T> child : _children) {
+            copy.addChild(child.deepCopy());
+        }
+
+        return copy;
+    };
 }

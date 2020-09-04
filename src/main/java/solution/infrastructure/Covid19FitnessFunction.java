@@ -35,9 +35,9 @@ public class Covid19FitnessFunction implements IFitnessFunction<Double> {
 
         //Perform a sliding window comparison
         int endPointForTest = _terminals.size() - (numberOfDataPointsTreeCanContain + _lookAhead);
-        for (int i = 0; i < _terminals.size(); i++) {
+        for (int i = 0; i < endPointForTest; i++) {
             //Load tree with data points
-            for (int j = i; j < numberOfDataPointsTreeCanContain; j++) {
+            for (int j = i; j < i + numberOfDataPointsTreeCanContain; j++) {
                 CovidTerminal dataPoint = _terminals.get(j);
                 populationMember.addNode(dataPoint);
             }

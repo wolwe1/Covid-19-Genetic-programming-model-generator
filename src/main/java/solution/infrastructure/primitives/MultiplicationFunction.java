@@ -20,6 +20,9 @@ public class MultiplicationFunction extends GeneticFunction<Double> {
 
     @Override
     public Node<Double> getCopy() {
-        return new MultiplicationFunction();
+        var newFunc = new MultiplicationFunction();
+        newFunc = (MultiplicationFunction)replicate(newFunc);
+
+        return newFunc;
     }
 }

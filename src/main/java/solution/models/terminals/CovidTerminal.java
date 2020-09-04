@@ -16,29 +16,34 @@ public class CovidTerminal extends TerminalNode<Double> {
 
     @Override
     public Double getBaseValue() {
-
-        switch (_mode){
-
-            case Cases:
-                return _entry.confirmedCases;
-            case Deaths:
-                return _entry.deaths;
-            case Recoveries:
-                return _entry.recoveries;
-            default:
-                return null;
-        }
+        return 0d;
     }
 
     @Override
     public CovidTerminal getCopy() {
         CovidTerminal newTerminal = new CovidTerminal(_entry.makeCopy());
         newTerminal._mode = _mode;
+        newTerminal.value = value;
 
         return newTerminal;
     }
 
     public void setMode(CovidPredictionMode mode){
         _mode = mode;
+
+        switch (_mode){
+
+            case Cases:
+                value = _entry.confirmedCases;
+                break;
+            case Deaths:
+                value =  _entry.deaths;
+                break;
+            case Recoveries:
+                value =  _entry.recoveries;
+                break;
+            default:
+                value = 0d;
+        }
     }
 }

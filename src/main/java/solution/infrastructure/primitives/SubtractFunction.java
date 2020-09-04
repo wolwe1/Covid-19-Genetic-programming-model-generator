@@ -21,6 +21,9 @@ public class SubtractFunction extends GeneticFunction<Double> {
 
     @Override
     public Node<Double> getCopy() {
-        return new SubtractFunction();
+        var newFunc = new SubtractFunction();
+        newFunc = (SubtractFunction)replicate(newFunc);
+
+        return newFunc;
     }
 }

@@ -180,4 +180,11 @@ public class NodeTree<T>
 
         root.removeLeaves();
     }
+
+    public NodeTree<T> getCopy() throws Exception {
+        NodeTree<T> newTree = new NodeTree<>(maxDepth,maxBreadth);
+        newTree.addNode(root.deepCopy());
+        newTree.depth = depth;
+        return newTree;
+    }
 }

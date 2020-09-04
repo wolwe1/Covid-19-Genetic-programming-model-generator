@@ -18,10 +18,11 @@ public class GeneticAlgorithm<T> {
 
     private boolean print;
 
-    public GeneticAlgorithm(int popSize, ITreeManager<T> treeManager) {
+    public GeneticAlgorithm(int popSize,int tournamentSize, ITreeManager<T> treeManager) {
         _maxPopulationSize = popSize;
         _population = new ArrayList<>();
         _treeManager = treeManager;
+        _tournamentSize = tournamentSize;
     }
 
     public void setTournamentSize(int tournamentSize) {
@@ -150,7 +151,9 @@ public class GeneticAlgorithm<T> {
      * @return The best tree
      * @throws Exception If the pool size was not maintained
      */
-    public PopulationMember<T> run() throws Exception {
+    public List<PopulationMember<T>> run() throws Exception {
+
+        List<PopulationMember<T>> winners = new ArrayList<>();
 
         createPopulation();
         _treeManager.setNewPopulation(_population);
@@ -158,19 +161,26 @@ public class GeneticAlgorithm<T> {
 
         for (int i = 0; i < _numGenerations; i++) {
 
+            System.out.println("=========================================");
             if (this.print) System.out.println("Generation " + i);
 
             bestTree = _treeManager.getBest();
 
             System.out.println("Best Fitness: " + bestTree.fitness);
             System.out.println("Heuristic Combination: " + bestTree.tree.getCombination());
+            System.out.println("\nStatistics");
+            System.out.println("------------------------------------------");
+            _treeManager.printLatestStatistics();
+            System.out.println("=========================================");
 
+            winners.add(bestTree.getCopy());
             evolvePopulation();
         }
 
         bestTree = _treeManager.getBest();
+        winners.add(bestTree.getCopy());
 
-        return bestTree;
+        return winners;
     }
 
     /**
@@ -179,11 +189,18 @@ public class GeneticAlgorithm<T> {
      */
     private void evolvePopulation() throws Exception {
 
+        int numOfTreesToRandomTreesToFill = 0;
         int numOfTreesToReproduce = (int)(_reproductionRate * _population.size());
+        //Ensure reproduction is bound to tournament size
+        while(numOfTreesToReproduce % _tournamentSize != 0){
+            numOfTreesToRandomTreesToFill++;
+            numOfTreesToReproduce--;
+        }
+
         int numOfTreesToMutate = (int)(_mutationRate * _population.size());
         // After reproduction, trees that lost the tournament will not be included in the pool.
         // For a constant size pool they must be replaced.
-        int numOfTreesToRandomTreesToFill = (_tournamentSize - 1) * numOfTreesToReproduce;
+        numOfTreesToRandomTreesToFill += (numOfTreesToReproduce / _tournamentSize);
 
         int numOfTreesToCrossover = (int)(_crossoverRate * _population.size());
         //Ensure crossover uses even number
@@ -193,10 +210,10 @@ public class GeneticAlgorithm<T> {
             numOfTreesToRandomTreesToFill++;
         }
 
-        if(numOfTreesToReproduce + numOfTreesToMutate + numOfTreesToCrossover + numOfTreesToRandomTreesToFill != _maxPopulationSize)
+        if( ( (numOfTreesToReproduce/_tournamentSize) + numOfTreesToMutate + numOfTreesToCrossover + numOfTreesToRandomTreesToFill) != _maxPopulationSize)
             throw new Exception("Pool size was not maintained");
 
-        var reproducers = selection(numOfTreesToReproduce);
+        var reproducers = selection((numOfTreesToReproduce/_tournamentSize));
         var newMembers = regenerate(numOfTreesToRandomTreesToFill);
         var mutants = mutate(numOfTreesToMutate);
         var crossoverMembers = crossover(numOfTreesToCrossover);

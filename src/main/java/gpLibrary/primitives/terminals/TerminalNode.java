@@ -4,7 +4,7 @@ import gpLibrary.primitives.Node;
 
 public abstract class TerminalNode<T> extends Node<T>{
 
-    public T Value;
+    protected T value;
 
     protected TerminalNode(String name){
         super(name);
@@ -12,7 +12,7 @@ public abstract class TerminalNode<T> extends Node<T>{
 
     @Override
     public T getValue(){
-        return Value;
+        return value;
     }
 
 }
