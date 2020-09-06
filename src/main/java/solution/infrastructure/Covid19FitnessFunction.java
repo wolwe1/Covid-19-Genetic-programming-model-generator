@@ -1,16 +1,19 @@
 package solution.infrastructure;
 
+import data.models.CovidEntry;
+import solution.infrastructure.stats.MSEStats;
 import solution.models.terminals.CovidTerminal;
 import gpLibrary.concepts.NodeTree;
 import gpLibrary.primitives.other.IFitnessFunction;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class Covid19FitnessFunction implements IFitnessFunction<Double> {
 
     private List<CovidTerminal> _terminals;
-    private int _lookAhead;
+    private final int _lookAhead;
 
     public Covid19FitnessFunction(int lookAhead){
         _lookAhead = lookAhead;
@@ -33,14 +36,18 @@ public class Covid19FitnessFunction implements IFitnessFunction<Double> {
             answerSet.add(_terminals.get(i).getValue());
         }
 
+        //Constant
+        var constant = MSEStats.getConstant(_lookAhead, _terminals);
         //Perform a sliding window comparison
         int endPointForTest = _terminals.size() - (numberOfDataPointsTreeCanContain + _lookAhead);
         for (int i = 0; i < endPointForTest; i++) {
             //Load tree with data points
-            for (int j = i; j < i + numberOfDataPointsTreeCanContain; j++) {
+            for (int j = i; j < (i + numberOfDataPointsTreeCanContain) -1; j++) { //Minus 1 to add constand
                 CovidTerminal dataPoint = _terminals.get(j);
                 populationMember.addNode(dataPoint);
             }
+
+            populationMember.addNode(constant);
             treeAnswers.add(populationMember.root.getValue());
             populationMember.clearLeaves();
         }

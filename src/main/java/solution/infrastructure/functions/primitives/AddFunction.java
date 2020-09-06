@@ -1,4 +1,4 @@
-package solution.infrastructure.primitives;
+package solution.infrastructure.functions.primitives;
 
 import gpLibrary.primitives.Node;
 import gpLibrary.primitives.functions.GeneticFunction;
@@ -10,7 +10,7 @@ public class AddFunction extends GeneticFunction<Double> {
     }
 
     @Override
-    public Double Operation() {
+    public Double Operation() throws Exception {
         Double baseValue = _children.get(0).getBaseValue();
 
         for (Node<Double> child : _children) {

@@ -1,4 +1,4 @@
-package solution.infrastructure.primitives;
+package solution.infrastructure.stats;
 
 import gpLibrary.concepts.IStatisticsPackage;
 import gpLibrary.primitives.other.PopulationMember;
@@ -37,9 +37,9 @@ public class BasicStats implements IStatisticsPackage<Double> {
         stats._worstFitness = entries.get(entries.size() -1).fitness;
 
         if (entries.size() % 2 == 0)
-            stats._medianFitness = ((double) entries.get(entries.size() / 2).fitness + (double) entries.get(entries.size() / 2 - 1).fitness)/2;
+            stats._medianFitness = ( entries.get(entries.size() / 2).fitness + (double) entries.get(entries.size() / 2 - 1).fitness)/2;
         else
-            stats._medianFitness = (double) entries.get(entries.size() / 2).fitness;
+            stats._medianFitness =  entries.get(entries.size() / 2).fitness;
 
         double total = 0;
         for (PopulationMember<Double> entry : entries) {

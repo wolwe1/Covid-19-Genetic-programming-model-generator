@@ -25,10 +25,9 @@ public class GeneticAlgorithm<T> {
         _tournamentSize = tournamentSize;
     }
 
-    public void setTournamentSize(int tournamentSize) {
-        _tournamentSize = tournamentSize;
+    public void resetPopulation(){
+        _population = new ArrayList<>();
     }
-
     /**
      * Sets the mutation and crossover rate, the reproduction rate is the remainder
      * @param mutationRate The percentage of the population mutated each generation. Scale 0 <= x <= 1
@@ -41,7 +40,7 @@ public class GeneticAlgorithm<T> {
 
         _mutationRate = mutationRate;
         _crossoverRate = crossoverRate;
-        _reproductionRate = 1 - (_mutationRate + _crossoverRate);
+        _reproductionRate = (double)Math.round( (1 - (_mutationRate + _crossoverRate))*100 )/100;
     }
 
     public void setNumberOfGenerations(int numberOfGenerations) {
@@ -59,18 +58,6 @@ public class GeneticAlgorithm<T> {
 
         for (int i = 0; i < _maxPopulationSize; i++) {
             _population.add( _treeManager.createRandom());
-        }
-    }
-
-    /**
-     * Prints out the tree structure of each member of the current population
-     */
-    private void showPopulation() {
-
-        System.out.println("Current trees in population");
-
-        for (PopulationMember<T> member : _population) {
-            System.out.println(member.tree.getCombination());
         }
     }
 
@@ -151,36 +138,47 @@ public class GeneticAlgorithm<T> {
      * @return The best tree
      * @throws Exception If the pool size was not maintained
      */
-    public List<PopulationMember<T>> run() throws Exception {
-
-        List<PopulationMember<T>> winners = new ArrayList<>();
+    public PopulationMember<T> run() throws Exception {
 
         createPopulation();
         _treeManager.setNewPopulation(_population);
-        PopulationMember<T> bestTree = null;
+        PopulationMember<T> bestTreeInGeneration = null;
+        double overallBestTreeFitness = Double.POSITIVE_INFINITY;
+        int overallBestGeneration = 0;
+        double generationsSinceLastImprovement = 0;
 
         for (int i = 0; i < _numGenerations; i++) {
 
             System.out.println("=========================================");
             if (this.print) System.out.println("Generation " + i);
 
-            bestTree = _treeManager.getBest();
-
+            PopulationMember<T> bestTree = _treeManager.getBest();
+            if(bestTree.fitness < overallBestTreeFitness)
+            {
+                overallBestTreeFitness = bestTree.fitness;
+                overallBestGeneration = i;
+                generationsSinceLastImprovement = 0;
+                bestTreeInGeneration = bestTree.getCopy();
+            }else{
+                if(++generationsSinceLastImprovement == 150){
+                    System.out.println("No improvement in the last 150 generations, aborting run");
+                    break;
+                }
+            }
             System.out.println("Best Fitness: " + bestTree.fitness);
             System.out.println("Heuristic Combination: " + bestTree.tree.getCombination());
             System.out.println("\nStatistics");
             System.out.println("------------------------------------------");
             _treeManager.printLatestStatistics();
+            System.out.println("*****************************************");
+            System.out.println("Overall best: Generation " + overallBestGeneration + " - " + overallBestTreeFitness);
+            System.out.println("*****************************************");
             System.out.println("=========================================");
 
-            winners.add(bestTree.getCopy());
             evolvePopulation();
         }
 
-        bestTree = _treeManager.getBest();
-        winners.add(bestTree.getCopy());
-
-        return winners;
+        return bestTreeInGeneration;
     }
 
     /**
@@ -200,7 +198,7 @@ public class GeneticAlgorithm<T> {
         int numOfTreesToMutate = (int)(_mutationRate * _population.size());
         // After reproduction, trees that lost the tournament will not be included in the pool.
         // For a constant size pool they must be replaced.
-        numOfTreesToRandomTreesToFill += (numOfTreesToReproduce / _tournamentSize);
+        numOfTreesToRandomTreesToFill += numOfTreesToReproduce - (numOfTreesToReproduce / _tournamentSize);
 
         int numOfTreesToCrossover = (int)(_crossoverRate * _population.size());
         //Ensure crossover uses even number

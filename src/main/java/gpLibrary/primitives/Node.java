@@ -57,7 +57,7 @@ public abstract class Node<T>
             return _children.size() == _maxChildren;
     }
 
-    public abstract T getValue();
+    public abstract T getValue() throws Exception;
     public abstract T getBaseValue();
 
     public abstract Node<T> getCopy();

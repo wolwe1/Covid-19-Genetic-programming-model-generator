@@ -7,7 +7,7 @@ import gpLibrary.primitives.terminals.TerminalNode;
 public class CovidTerminal extends TerminalNode<Double> {
 
     private final CovidEntry _entry;
-    private CovidPredictionMode _mode;
+    public CovidPredictionMode _mode;
 
     public CovidTerminal(CovidEntry entry) {
         super(entry.observationDate.toString());

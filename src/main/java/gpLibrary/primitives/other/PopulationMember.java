@@ -1,6 +1,11 @@
 package gpLibrary.primitives.other;
 
 import gpLibrary.concepts.NodeTree;
+import gpLibrary.primitives.Node;
+import gpLibrary.primitives.terminals.TerminalNode;
+import solution.models.terminals.CovidTerminal;
+
+import java.util.List;
 
 /**
  * A POJO that wraps around a node tree
@@ -31,5 +36,16 @@ public class PopulationMember<T> {
         newMember.fitness = fitness;
 
         return newMember;
+    }
+
+    public T makePrediction() throws Exception {
+        return tree.root.getValue();
+    }
+
+    public void loadLeaves(List< ? extends TerminalNode<T>> subList) throws Exception {
+        tree.clearLeaves();
+        for (Node<T> terminal : subList) {
+            tree.addNode(terminal.getCopy());
+        }
     }
 }

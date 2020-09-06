@@ -3,6 +3,7 @@ package solution.infrastructure;
 import data.models.CovidEntry;
 import data.models.CovidPredictionMode;
 import gpLibrary.infrastructure.Statistics;
+import solution.infrastructure.stats.MSEStats;
 import solution.models.terminals.CovidTerminal;
 import gpLibrary.concepts.FunctionalSet;
 import gpLibrary.concepts.NodeTree;
@@ -49,14 +50,6 @@ public class CovidTreeManager extends ITreeManager<Double> {
         return popMember;
     }
 
-//    @Override
-//    public void setNewPopulation(List<PopulationMember<Double>> newPopulation) throws Exception {
-//        for (PopulationMember<Double> populationMember : newPopulation) {
-//            populationMember.m
-//        }
-//        super.setNewPopulation(newPopulation);
-//    }
-
     @Override
     public PopulationMember<Double> createMutant(PopulationMember<Double> toBeMutated) throws Exception {
 
@@ -67,7 +60,7 @@ public class CovidTreeManager extends ITreeManager<Double> {
         GeneticFunction<Double> nodeReplacing = _functionalSet.get(randomFunc);
 
         //Ensure a different node is actually swapped in
-        while(nodeReplacing.name == nodeToExchange.name){
+        while(nodeReplacing.name.equals(nodeToExchange.name)){
             randomFunc = _randomNumberGenerator.nextInt(_functionalSet.size());
             nodeReplacing = _functionalSet.get(randomFunc);
         }
@@ -82,14 +75,13 @@ public class CovidTreeManager extends ITreeManager<Double> {
             //Find the node being replaced place in parents children
             int indexOfNode = nodeToExchange.Parent.getIndexOfChild(nodeToExchange);
             nodeToExchange.Parent.setChild(indexOfNode,nodeReplacing);
-            toBeMutated.updateId();
         }else{
             //Node has no parent and therefore is a full tree by itself
             NodeTree<Double> newTree = new NodeTree<Double>(toBeMutated.tree.maxDepth,toBeMutated.tree.maxBreadth);
             newTree.addNode(nodeReplacing);
             toBeMutated.tree = newTree;
-            toBeMutated.updateId();
         }
+        toBeMutated.updateId();
 
         toBeMutated.fitness = _fitnessFunction.getWorstPossibleValue();
         return toBeMutated;
@@ -106,8 +98,8 @@ public class CovidTreeManager extends ITreeManager<Double> {
         Node<Double> nodeToExchangeInSecondTree = memberTwo.tree.getNode(randomPoint);
 
         //Create a copy of the first one
-        Node<Double> copyOfFirst = nodeToExchangeInFirstTree.getCopy();
-        Node<Double> copyOfSecond = nodeToExchangeInSecondTree.getCopy();
+        Node<Double> copyOfFirst = nodeToExchangeInFirstTree.deepCopy();
+        Node<Double> copyOfSecond = nodeToExchangeInSecondTree.deepCopy();
 
         int indexOfFirstNode = nodeToExchangeInFirstTree.Parent.getIndexOfChild(nodeToExchangeInFirstTree);
         int indexOfSecondNode = nodeToExchangeInSecondTree.Parent.getIndexOfChild(nodeToExchangeInSecondTree);
@@ -162,5 +154,45 @@ public class CovidTreeManager extends ITreeManager<Double> {
 
     public void predictOn(CovidPredictionMode predictOn){
         _predictOn = predictOn;
+    }
+
+    public List<CovidTerminal> getTerminals() {
+        return _terminalNodes;
+    }
+
+    public void printTreeEstimates(PopulationMember<Double> tree) throws Exception {
+
+        tree.tree.clearLeaves();
+        int numberOfDataPointsTreeCanContain = tree.tree.getNumberOfPossibleLeafNodes();
+        int startIndexOfComparisons =  numberOfDataPointsTreeCanContain + _historyCount;
+        List<Double> answerSet = new ArrayList<>();
+        List<Double> treeAnswers = new ArrayList<>();
+
+        //Load answer set
+        for (int i = startIndexOfComparisons; i < _terminalNodes.size(); i++) {
+            answerSet.add(_terminalNodes.get(i).getValue());
+        }
+
+        //Constant
+        var constant = MSEStats.getConstant(_historyCount, _terminalNodes);
+        //Perform a sliding window comparison
+        int endPointForTest = _terminalNodes.size() - (numberOfDataPointsTreeCanContain + _historyCount);
+        for (int i = 0; i < endPointForTest; i++) {
+            //Load tree with data points
+            for (int j = i; j < (i + numberOfDataPointsTreeCanContain) -1; j++) { //Minus 1 to add constant
+                CovidTerminal dataPoint = _terminalNodes.get(j);
+                tree.tree.addNode(dataPoint);
+            }
+
+            tree.tree.addNode(constant);
+            treeAnswers.add(tree.tree.root.getValue());
+            tree.tree.clearLeaves();
+        }
+
+        System.out.println("Prediction comparison for " + _predictOn.toString());
+        for (int i = 0, answerSetSize = answerSet.size(); i < answerSetSize; i++) {
+            Double value = answerSet.get(i);
+            System.out.println("Day "+ i + startIndexOfComparisons + " : " + value + " - Model : " + treeAnswers.get(i));
+        }
     }
 }

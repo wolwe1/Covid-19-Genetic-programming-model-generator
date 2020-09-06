@@ -2,17 +2,18 @@ import data.infrastructure.Covid19FileReader;
 import data.models.CovidPredictionMode;
 import gpLibrary.concepts.FunctionalSet;
 import gpLibrary.infrastructure.GeneticAlgorithm;
-import gpLibrary.infrastructure.ITreeManager;
 import gpLibrary.infrastructure.Statistics;
 import gpLibrary.primitives.other.PopulationMember;
 import helpers.ArtDrawer;
 import helpers.FileManager;
+import helpers.TreePrinter;
 import solution.infrastructure.Covid19FitnessFunction;
 import solution.infrastructure.CovidTreeManager;
-import solution.infrastructure.primitives.*;
+import solution.infrastructure.functions.primitives.*;
+import solution.infrastructure.stats.BasicStats;
+import solution.infrastructure.stats.MSEStats;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Main {
@@ -47,7 +48,8 @@ public class Main {
     public static void main(String[] args) throws Exception {
 
         int seed = 1;
-
+        List<PopulationMember<Double>> bestTrees = new ArrayList<>();
+        MSEStats stats = null;
         //Load data
         Covid19FileReader fileReader = greet();
         var covidEntries = fileReader.getData();
@@ -60,54 +62,37 @@ public class Main {
         functionalSet.addFunction( new SubtractFunction());
         functionalSet.addFunction( new MultiplicationFunction());
         functionalSet.addFunction( new DivisionFunction());
+        //functionalSet.addFunction(new ChangeFunction());
 
         Statistics<Double> statisticsHandler = new Statistics<>(new BasicStats());
 
-        CovidTreeManager treeManager = new CovidTreeManager(fitnessFunction,seed,functionalSet,statisticsHandler,covidEntries,CovidPredictionMode.Cases);
+        CovidTreeManager treeManager = new CovidTreeManager(fitnessFunction,0,functionalSet,statisticsHandler,covidEntries,CovidPredictionMode.Cases);
         treeManager.setProblemValues(16,2);
-        GeneticAlgorithm<Double> geneticAlgorithm = new GeneticAlgorithm<>(100,2,treeManager);
+        stats = new MSEStats(treeManager.getTerminals(),2);
 
-        geneticAlgorithm.setRates(0.3,0.3);
+        GeneticAlgorithm<Double> geneticAlgorithm = new GeneticAlgorithm<>(500,2,treeManager);
+
+        geneticAlgorithm.setRates(0.6,0.2);
         geneticAlgorithm.setNumberOfGenerations(5);
         geneticAlgorithm.setPrint(true);
 
-        var bestTrees = geneticAlgorithm.run();
+        for (int i = 0; i < 3; i++) {
+            treeManager.setSeed(i);
 
-        printWinner(bestTrees);
+            var bestTree = geneticAlgorithm.run();
+            bestTrees.add(bestTree);
+            geneticAlgorithm.resetPopulation();
+        }
 
+        stats.createNew(bestTrees);
+        stats.print();
+        var overallBestTree = printWinner(bestTrees);
+
+        treeManager.printTreeEstimates(overallBestTree);
         //Do work
-
-//        NodeTree<Double> tree = new NodeTree<>(3,2);
-//        GeneticFunction<Double> addFunc = new AddFunction("Add 1");
-//        GeneticFunction<Double> addFunc2 = new AddFunction("Add 2");
-//        GeneticFunction<Double> addFunc3 = new AddFunction("Add 3");
-//        CovidReport terminal1 = new CovidReport(2,"T 1");
-//        CovidReport terminal2 = new CovidReport(2,"T 2");
-//        CovidReport terminal3 = new CovidReport(2,"T 3");
-//        CovidReport terminal4 = new CovidReport(2,"T 4");
-//
-//        terminal1.confirmedCases = 1;
-//        terminal2.confirmedCases = 1;
-//        terminal3.confirmedCases = 1;
-//        terminal4.confirmedCases = 1;
-//
-//        tree.addNode(addFunc);
-//        tree.addNode(addFunc2);
-//        tree.addNode(addFunc3);
-//        tree.addNode(terminal1);
-//        tree.addNode(terminal2);
-//        tree.addNode(terminal3);
-//        tree.addNode(terminal4);
-//
-//        TreePrinter treePrinter = new TreePrinter(2,3);
-//
-//        //tree.VisitTree(treePrinter);
-//        //treePrinter.print();
-//        //System.out.println("Tree value : " + tree.Root.getValue());
-//        treePrinter.drawTree(tree.Root);
     }
 
-    private static void printWinner(List<PopulationMember<Double>> bestTrees) {
+    private static PopulationMember<Double> printWinner(List<PopulationMember<Double>> bestTrees) throws Exception {
         drawer.drawLine();
         drawer.draw("Winner!");
         drawer.drawLine();
@@ -123,5 +108,10 @@ public class Main {
         }
         System.out.println("Combination : " + ultimateBestTree.id);
         System.out.println("Fitness : " + ultimateBestTree.fitness);
+
+        TreePrinter printer = new TreePrinter();
+        printer.drawTree(ultimateBestTree.tree.root);
+
+        return ultimateBestTree;
     }
 }

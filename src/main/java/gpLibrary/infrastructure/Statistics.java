@@ -16,15 +16,15 @@ public class Statistics<T> {
         _package = packageType;
     }
 
-    void printLatest(){
+    public void printLatest(){
         _history.get(_history.size()-1).print();
     }
 
-    void addEntry(List<PopulationMember<T>> entry){
+    public void addEntry(List<PopulationMember<T>> entry){
         _history.add(_package.createNew(entry));
     }
 
-    List<IStatisticsPackage<T>> getHistory(){
+    public List<IStatisticsPackage<T>> getHistory(){
         return _history;
     }
 }

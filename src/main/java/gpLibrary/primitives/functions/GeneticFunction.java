@@ -8,10 +8,10 @@ public abstract class GeneticFunction<T> extends Node<T> {
         super(name);
     }
 
-    public abstract T Operation();
+    public abstract T Operation() throws Exception;
 
     @Override
-    public T getValue(){
+    public T getValue() throws Exception {
         return Operation();
     }
 

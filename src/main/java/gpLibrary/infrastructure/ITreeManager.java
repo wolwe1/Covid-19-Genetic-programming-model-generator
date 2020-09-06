@@ -2,6 +2,7 @@ package gpLibrary.infrastructure;
 
 import gpLibrary.primitives.other.IFitnessFunction;
 import gpLibrary.primitives.other.PopulationMember;
+import solution.models.terminals.CovidTerminal;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +16,7 @@ public abstract class ITreeManager<T> {
 
     protected List<PopulationMember<T>> _population;
     protected IFitnessFunction<T> _fitnessFunction;
-    protected final Random _randomNumberGenerator;
+    protected Random _randomNumberGenerator;
     protected Statistics<T> _statistics;
 
     protected ITreeManager(IFitnessFunction<T> fitnessFunction,Statistics<T> stats, long seed){
@@ -121,5 +122,9 @@ public abstract class ITreeManager<T> {
 
     public void printLatestStatistics(){
         _statistics.printLatest();
+    }
+
+    public void setSeed(int i){
+        _randomNumberGenerator = new Random(i);
     }
 }
