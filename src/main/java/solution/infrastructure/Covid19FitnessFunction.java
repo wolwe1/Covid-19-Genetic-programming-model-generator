@@ -75,4 +75,8 @@ public class Covid19FitnessFunction implements IFitnessFunction<Double> {
     public void setDomain(List<CovidTerminal> terminalNodes) {
         _terminals = terminalNodes;
     }
+
+    public int getLookAhead(){
+        return _lookAhead;
+    }
 }

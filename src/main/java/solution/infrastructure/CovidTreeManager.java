@@ -24,9 +24,11 @@ public class CovidTreeManager extends ITreeManager<Double> {
     private int _treeChildCount;
     private int _maxTreeSize;
     private CovidPredictionMode _predictOn;
+    private int _lookAhead;
 
     public CovidTreeManager(Covid19FitnessFunction fitnessFunction, long seed, FunctionalSet<Double> funcSet, Statistics<Double> stats, List<CovidEntry> covidEntries, CovidPredictionMode predictOn) {
         super(fitnessFunction, stats, seed);
+        _lookAhead = fitnessFunction.getLookAhead();
         _functionalSet = funcSet;
         _predictOn = predictOn;
         _terminalNodes = convertEntriesToNodes(covidEntries);
@@ -164,7 +166,7 @@ public class CovidTreeManager extends ITreeManager<Double> {
 
         tree.tree.clearLeaves();
         int numberOfDataPointsTreeCanContain = tree.tree.getNumberOfPossibleLeafNodes();
-        int startIndexOfComparisons =  numberOfDataPointsTreeCanContain + _historyCount;
+        int startIndexOfComparisons =  numberOfDataPointsTreeCanContain + _lookAhead;
         List<Double> answerSet = new ArrayList<>();
         List<Double> treeAnswers = new ArrayList<>();
 
@@ -174,9 +176,9 @@ public class CovidTreeManager extends ITreeManager<Double> {
         }
 
         //Constant
-        var constant = MSEStats.getConstant(_historyCount, _terminalNodes);
+        var constant = MSEStats.getConstant(_lookAhead, _terminalNodes);
         //Perform a sliding window comparison
-        int endPointForTest = _terminalNodes.size() - (numberOfDataPointsTreeCanContain + _historyCount);
+        int endPointForTest = _terminalNodes.size() - (numberOfDataPointsTreeCanContain + _lookAhead);
         for (int i = 0; i < endPointForTest; i++) {
             //Load tree with data points
             for (int j = i; j < (i + numberOfDataPointsTreeCanContain) -1; j++) { //Minus 1 to add constant
@@ -192,7 +194,7 @@ public class CovidTreeManager extends ITreeManager<Double> {
         System.out.println("Prediction comparison for " + _predictOn.toString());
         for (int i = 0, answerSetSize = answerSet.size(); i < answerSetSize; i++) {
             Double value = answerSet.get(i);
-            System.out.println("Day "+ i + startIndexOfComparisons + " : " + value + " - Model : " + treeAnswers.get(i));
+            System.out.println("Day "+ (i + startIndexOfComparisons) + " : " + value + " - Model : " + treeAnswers.get(i));
         }
     }
 }

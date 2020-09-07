@@ -73,7 +73,7 @@ public class Main {
         GeneticAlgorithm<Double> geneticAlgorithm = new GeneticAlgorithm<>(500,2,treeManager);
 
         geneticAlgorithm.setRates(0.6,0.2);
-        geneticAlgorithm.setNumberOfGenerations(5);
+        geneticAlgorithm.setNumberOfGenerations(50);
         geneticAlgorithm.setPrint(true);
 
         for (int i = 0; i < 3; i++) {

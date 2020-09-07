@@ -92,7 +92,12 @@ public class MSEStats implements IStatisticsPackage<Double> {
         CovidTerminal constant = getConstant(_lookAhead, _covidEntries);
         for (int i = 0, covidEntriesSize = _covidEntries.size() - (numberOfEntriesInTree + _lookAhead); i < covidEntriesSize; i++) {
 
-            var sublist = new ArrayList<>(_covidEntries.subList(i,( (numberOfEntriesInTree + i)-1 )));
+            List<CovidTerminal> sublist = new ArrayList<>();
+            for (int j = i, entriesSize = ( (numberOfEntriesInTree + i)-1 ); j < entriesSize; j++) {
+                CovidTerminal covidEntry = _covidEntries.get(j).getCopy();
+                sublist.add(covidEntry);
+            }
+
             sublist.add(constant);
             tree.loadLeaves(sublist);
             double difference = (tree.makePrediction() - _covidEntries.get(i + entriesInTheFutureToGuess).getValue());
