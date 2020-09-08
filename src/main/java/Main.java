@@ -49,7 +49,7 @@ public class Main {
 
         int seed = 1;
         List<PopulationMember<Double>> bestTrees = new ArrayList<>();
-        MSEStats stats = null;
+        MSEStats trainingStats = null;
         //Load data
         Covid19FileReader fileReader = greet();
         var covidEntries = fileReader.getData();
@@ -66,29 +66,47 @@ public class Main {
 
         Statistics<Double> statisticsHandler = new Statistics<>(new BasicStats());
 
-        CovidTreeManager treeManager = new CovidTreeManager(fitnessFunction,0,functionalSet,statisticsHandler,covidEntries,CovidPredictionMode.Cases);
-        treeManager.setProblemValues(16,2);
-        stats = new MSEStats(treeManager.getTerminals(),2);
+        CovidTreeManager trainSetTreeManager = new CovidTreeManager(fitnessFunction,0,functionalSet,statisticsHandler,covidEntries,CovidPredictionMode.Cases);
+        trainSetTreeManager.setProblemValues(16,2);
+        fileReader.setCountry("Nigeria");
+        //var testCovidEntries = fileReader.getData();
+        //System.out.println("Successfully loaded file,"+ covidEntries.size() + " entries read.");
 
-        GeneticAlgorithm<Double> geneticAlgorithm = new GeneticAlgorithm<>(500,2,treeManager);
+        //CovidTreeManager testTreeManager = new CovidTreeManager(fitnessFunction,0,functionalSet,statisticsHandler,testCovidEntries,CovidPredictionMode.Cases);
+        //testTreeManager.setProblemValues(32,2);
 
-        geneticAlgorithm.setRates(0.6,0.2);
-        geneticAlgorithm.setNumberOfGenerations(50);
+        trainingStats = new MSEStats(trainSetTreeManager.getTerminals(),2);
+        //var testingStats = new MSEStats(testTreeManager.getTerminals(),2);
+
+        GeneticAlgorithm<Double> geneticAlgorithm = new GeneticAlgorithm<>(1500,2,trainSetTreeManager);
+
+        geneticAlgorithm.setRates(0.5,0.3);
+        geneticAlgorithm.setNumberOfGenerations(1000);
         geneticAlgorithm.setPrint(true);
 
-        for (int i = 0; i < 3; i++) {
-            treeManager.setSeed(i);
+        System.out.println("Testing on size 16 trees");
+        for (int i = 0; i < 10; i++) {
+            trainSetTreeManager.setSeed(i);
 
             var bestTree = geneticAlgorithm.run();
             bestTrees.add(bestTree);
             geneticAlgorithm.resetPopulation();
+            System.out.println("Run "+ i + " completed");
         }
 
-        stats.createNew(bestTrees);
-        stats.print();
+
+        trainingStats.createNew(bestTrees);
+        trainingStats.print();
         var overallBestTree = printWinner(bestTrees);
 
-        treeManager.printTreeEstimates(overallBestTree);
+        trainSetTreeManager.printTreeEstimates(overallBestTree);
+
+//        System.out.println("Testing");
+//        var list = new ArrayList<PopulationMember<Double>>();
+//        list.add(overallBestTree);
+//        testingStats.createNew(list);
+//        testingStats.print();
+//        testTreeManager.printTreeEstimates(overallBestTree);
         //Do work
     }
 

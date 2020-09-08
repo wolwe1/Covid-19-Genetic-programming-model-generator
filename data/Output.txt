@@ -1,0 +1,380 @@
+Please enter the name of the country you would like to load data on :
+south africa
+Successfully loaded file,174 entries read.
+Testing on size 16 trees
+No improvement in the last 500 generations, aborting run
+Overall best: Generation 363 - 465282.10747757304
+Run 0 completed
+No improvement in the last 500 generations, aborting run
+Overall best: Generation 51 - 531559.0817387435
+Run 1 completed
+Overall best: Generation 1258 - 406077.4604266254
+Run 2 completed
+No improvement in the last 500 generations, aborting run
+Overall best: Generation 143 - 531716.9010467757
+Run 3 completed
+No improvement in the last 500 generations, aborting run
+Overall best: Generation 252 - 531990.4830930887
+Run 4 completed
+No improvement in the last 500 generations, aborting run
+Overall best: Generation 548 - 391247.11440811586
+Run 5 completed
+No improvement in the last 500 generations, aborting run
+Overall best: Generation 870 - 384826.84620220924
+Run 6 completed
+No improvement in the last 500 generations, aborting run
+Overall best: Generation 258 - 400122.90075339726
+Run 7 completed
+No improvement in the last 500 generations, aborting run
+Overall best: Generation 198 - 410679.8313914744
+Run 8 completed
+No improvement in the last 500 generations, aborting run
+Overall best: Generation 65 - 531558.786794893
+Run 9 completed
+Testing on size 32 trees
+No improvement in the last 500 generations, aborting run
+Overall best: Generation 623 - 407872.6821115561
+Run 0 completed
+No improvement in the last 500 generations, aborting run
+Overall best: Generation 85 - 526895.4290527888
+Run 1 completed
+No improvement in the last 500 generations, aborting run
+Overall best: Generation 441 - 1139773.1741947047
+Run 2 completed
+No improvement in the last 500 generations, aborting run
+Overall best: Generation 304 - 1116368.2897925288
+Run 3 completed
+No improvement in the last 500 generations, aborting run
+Overall best: Generation 481 - 834309.7473122159
+Run 4 completed
+No improvement in the last 500 generations, aborting run
+Overall best: Generation 426 - 721206.0000000021
+Run 5 completed
+No improvement in the last 500 generations, aborting run
+Overall best: Generation 268 - 408521.449721917
+Run 6 completed
+No improvement in the last 500 generations, aborting run
+Overall best: Generation 218 - 563231.3347207634
+Run 7 completed
+No improvement in the last 500 generations, aborting run
+Overall best: Generation 847 - 399400.3830033504
+Run 8 completed
+No improvement in the last 500 generations, aborting run
+Overall best: Generation 441 - 563145.3976898867
+Run 9 completed
+Entry 1
+
+Tree: SASADAADSASSAAA
+Mean squared error(MSE) : 3.6350479644796224E9
+Mean absolute error(MAE) : 465282.10747757304
+Average MAE over run : 25849.00597097628
+Entry 1
+
+Tree: AMADDSAAASMDAAA
+Mean squared error(MSE) : 4.75644182289562E9
+Mean absolute error(MAE) : 531559.0817387435
+Average MAE over run : 29531.06009659686
+Entry 1
+
+Tree: DDDAMMMADAADDAA
+Mean squared error(MSE) : 2.827191054822717E9
+Mean absolute error(MAE) : 406077.4604266254
+Average MAE over run : 22559.858912590298
+Entry 1
+
+Tree: SDSDSAADSAADAAA
+Mean squared error(MSE) : 4.756630488700277E9
+Mean absolute error(MAE) : 531716.9010467757
+Average MAE over run : 29539.827835931985
+Entry 1
+
+Tree: SSSDDAAMMDADAAS
+Mean squared error(MSE) : 4.757023521564667E9
+Mean absolute error(MAE) : 531990.4830930887
+Average MAE over run : 29555.026838504928
+Entry 1
+
+Tree: MDSDSDMAADASAAS
+Mean squared error(MSE) : 3.1308648861568904E9
+Mean absolute error(MAE) : 391247.11440811586
+Average MAE over run : 21735.950800450883
+Entry 1
+
+Tree: MDSMSMMDDDASSAS
+Mean squared error(MSE) : 2.870395718619442E9
+Mean absolute error(MAE) : 384826.84620220924
+Average MAE over run : 21379.26923345607
+Entry 1
+
+Tree: DDDMADADDSAAMAM
+Mean squared error(MSE) : 2.9387326949498987E9
+Mean absolute error(MAE) : 400122.90075339726
+Average MAE over run : 22229.050041855404
+Entry 1
+
+Tree: MDSASSSDDSASAMS
+Mean squared error(MSE) : 2.543714211694867E9
+Mean absolute error(MAE) : 410679.8313914744
+Average MAE over run : 22815.546188415246
+Entry 1
+
+Tree: ADASSSASAMMDAAA
+Mean squared error(MSE) : 4.756441629725607E9
+Mean absolute error(MAE) : 531558.786794893
+Average MAE over run : 29531.043710827387
+Entry 1
+
+Tree: ADMAADAMAASAMMMSSMDMMADDAAADSAA
+Mean squared error(MSE) : 3.313027392952101E9
+Mean absolute error(MAE) : 407872.6821115561
+Average MAE over run : 11996.255356222238
+Entry 1
+
+Tree: AAAMDDADMSSSASAAADDDAMMDSASDAAA
+Mean squared error(MSE) : 4.754380924879185E9
+Mean absolute error(MAE) : 526895.4290527888
+Average MAE over run : 15496.924383905553
+Entry 1
+
+Tree: ADSASMSSDMSDSDAMMADDDMDSMAMSDDA
+Mean squared error(MSE) : 2.0689007747676228E10
+Mean absolute error(MAE) : 1139773.1741947047
+Average MAE over run : 33522.74041749132
+Entry 1
+
+Tree: SMADDMSADAMADAAAASSDSAASSAASSSA
+Mean squared error(MSE) : 1.8580722444207146E10
+Mean absolute error(MAE) : 1116368.2897925288
+Average MAE over run : 32834.361464486145
+Entry 1
+
+Tree: SDASMDSSAAADASADSDMDSMAMMMMAASS
+Mean squared error(MSE) : 1.022327823352812E10
+Mean absolute error(MAE) : 834309.7473122159
+Average MAE over run : 24538.521979771056
+Entry 1
+
+Tree: SDADADADASMDAASSSSMAMAAAMMMSSSA
+Mean squared error(MSE) : 8.207841846000002E9
+Mean absolute error(MAE) : 721206.0000000021
+Average MAE over run : 21211.94117647065
+Entry 1
+
+Tree: ADDMADDSDADASASDADSAADDADMADDMS
+Mean squared error(MSE) : 3.0519749445095787E9
+Mean absolute error(MAE) : 408521.449721917
+Average MAE over run : 12015.336756526971
+Entry 1
+
+Tree: ADSMMDASDMAMMSSSSAMMADMAAMDAADS
+Mean squared error(MSE) : 4.812052634895125E9
+Mean absolute error(MAE) : 563231.3347207634
+Average MAE over run : 16565.62749178716
+Entry 1
+
+Tree: SDMMSDSADAAAADAMMDDDDAMDDDADAMD
+Mean squared error(MSE) : 2.7321473715162153E9
+Mean absolute error(MAE) : 399400.3830033504
+Average MAE over run : 11747.070088333836
+Entry 1
+
+Tree: SDADSDAASSAAMSSMMSSDMDADDDSAADA
+Mean squared error(MSE) : 4.811736609018907E9
+Mean absolute error(MAE) : 563145.3976898867
+Average MAE over run : 16563.09993205549
+
+Average MSE of group : 5.907432707139612E9
+Average MAE of group : 563289.2700466305
+************************************************************************************************************************************************
+      **   ***   ** *                                *                                                                                          
+      **   ***   **                                  *                                                                                          
+      **   ***   ** *  ******  ******   *****  ****  *                                                                                          
+      *** ** ** *** *  ******  ******  ******  ****  *                                                                                          
+       ** ** ** **  *  **   *  **   *  **   *  **    *                                                                                          
+       ** ** ** **  *  **   *  **   *  ******  **    *                                                                                          
+       ***** *****  *  *    *  *    *  **      *     *                                                                                          
+        ***   ***   *  *    *  *    *  **      *     *                                                                                          
+        ***   ***   *  *    *  *    *  ******  *                                                                                                
+        ***   ***   *  *    *  *    *  ******  *     *                                                                                          
+************************************************************************************************************************************************
+Combination : MDSMSMMDDDASSAS
+Fitness : 384826.84620220924
+
+
+Level order traversal of tree:
+                                                M
+                                              /    \
+                                            /        \
+                                          /            \
+                                        /                \
+                                      /                    \
+                                 D                             S
+                               /    \                         /   \
+                             /        \                     /       \
+                           /            \                 /           \
+                         /                \             /               \
+                     M                       S      M                       M
+                   /    \                   /   \ /   \                   /   \
+                 /        \               /       \/       \               /       \
+               /            \           /           \/           \           /           \
+            D                 D      D                 AS                 S      A                 S
+          /    \             /   \ /   \             /   \/   \             /   \ /   \             /   \
+        /        \         /       \/       \         /       \/       \         /       \/       \         /       \
+                    Fri Aug 07 00:00:00 SAST 2020Sat Aug 08 00:00:00 SAST 2020      Sun Aug 09 00:00:00 SAST 2020Mon Aug 10 00:00:00 SAST 2020Tue Aug 11 00:00:00 SAST 2020Wed Aug 12 00:00:00 SAST 2020      Thu Aug 13 00:00:00 SAST 2020Fri Aug 14 00:00:00 SAST 2020Sat Aug 15 00:00:00 SAST 2020Sun Aug 16 00:00:00 SAST 2020      Mon Aug 17 00:00:00 SAST 2020Tue Aug 18 00:00:00 SAST 2020Wed Aug 19 00:00:00 SAST 2020Thu Aug 20 00:00:00 SAST 2020      Fri Aug 21 00:00:00 SAST 2020Tue Sep 08 04:52:57 SAST 2020
+Prediction comparison for Cases
+Day 18 : 402.0 - Model : 295.21739130434776
+Day 19 : 554.0 - Model : 1314.828897338403
+Day 20 : 709.0 - Model : 194.05708796486894
+Day 21 : 927.0 - Model : 733.2062293534685
+Day 22 : 1170.0 - Model : 591.4583748253399
+Day 23 : 1187.0 - Model : 1150.7146222374506
+Day 24 : 1280.0 - Model : 1837.6106252404413
+Day 25 : 1326.0 - Model : 2317.065932914046
+Day 26 : 1353.0 - Model : 2816.912685473564
+Day 27 : 1380.0 - Model : 4162.814808626219
+Day 28 : 1462.0 - Model : 2551.8990179142183
+Day 29 : 1505.0 - Model : 3698.12106296054
+Day 30 : 1585.0 - Model : 1461.4573991354314
+Day 31 : 1655.0 - Model : 1891.877932123629
+Day 32 : 1686.0 - Model : 1586.7821434119246
+Day 33 : 1749.0 - Model : 1168.3036791797113
+Day 34 : 1845.0 - Model : 1266.6071516210343
+Day 35 : 1934.0 - Model : 1102.5579760671017
+Day 36 : 2003.0 - Model : 1162.1638156248446
+Day 37 : 2028.0 - Model : 1347.7707957311084
+Day 38 : 2173.0 - Model : 1746.067271138344
+Day 39 : 2272.0 - Model : 1795.1072075142658
+Day 40 : 2415.0 - Model : 2424.3661115091427
+Day 41 : 2506.0 - Model : 2345.867466062312
+Day 42 : 2605.0 - Model : 2555.4339174184884
+Day 43 : 2783.0 - Model : 2639.37549151678
+Day 44 : 3034.0 - Model : 2974.1504165941087
+Day 45 : 3158.0 - Model : 2925.0843700529203
+Day 46 : 3300.0 - Model : 3153.694773618143
+Day 47 : 3465.0 - Model : 3360.931697858834
+Day 48 : 3635.0 - Model : 3740.2983239437563
+Day 49 : 3953.0 - Model : 4064.2652141482745
+Day 50 : 4220.0 - Model : 4222.497380274449
+Day 51 : 4361.0 - Model : 4363.431921346981
+Day 52 : 4546.0 - Model : 4702.479906919379
+Day 53 : 4793.0 - Model : 4940.501558686396
+Day 54 : 4996.0 - Model : 5608.809379102519
+Day 55 : 5350.0 - Model : 5374.600323226786
+Day 56 : 5647.0 - Model : 5797.13742943378
+Day 57 : 5951.0 - Model : 5974.803355560975
+Day 58 : 6336.0 - Model : 6213.77692674883
+Day 59 : 6783.0 - Model : 6501.161074727546
+Day 60 : 7220.0 - Model : 6918.3499589627245
+Day 61 : 7572.0 - Model : 7023.179818241917
+Day 62 : 7808.0 - Model : 7824.682557428957
+Day 63 : 8232.0 - Model : 8527.78920135222
+Day 64 : 8895.0 - Model : 8870.675520296514
+Day 65 : 9420.0 - Model : 9659.745030027034
+Day 66 : 10015.0 - Model : 9920.083917170869
+Day 67 : 10652.0 - Model : 10330.30658808944
+Day 68 : 11350.0 - Model : 11276.480477412657
+Day 69 : 12074.0 - Model : 12075.121347830707
+Day 70 : 12739.0 - Model : 12371.970696285987
+Day 71 : 13524.0 - Model : 13425.632668932225
+Day 72 : 14355.0 - Model : 14037.228824100923
+Day 73 : 15515.0 - Model : 15345.352075258288
+Day 74 : 16433.0 - Model : 16469.627369061152
+Day 75 : 17200.0 - Model : 17265.732075015138
+Day 76 : 18003.0 - Model : 18310.106162270684
+Day 77 : 19137.0 - Model : 20253.411198845286
+Day 78 : 20125.0 - Model : 21453.56409909088
+Day 79 : 21343.0 - Model : 22390.882658537754
+Day 80 : 22583.0 - Model : 23115.027128628375
+Day 81 : 23615.0 - Model : 23605.463783806932
+Day 82 : 24264.0 - Model : 25235.00299488426
+Day 83 : 25937.0 - Model : 26508.04833749906
+Day 84 : 27403.0 - Model : 27681.883185821578
+Day 85 : 29240.0 - Model : 28857.637300413393
+Day 86 : 30967.0 - Model : 29473.75538246272
+Day 87 : 32683.0 - Model : 31466.787139004897
+Day 88 : 34357.0 - Model : 32250.214622246844
+Day 89 : 35812.0 - Model : 35314.377117110365
+Day 90 : 37525.0 - Model : 37353.06144637222
+Day 91 : 40792.0 - Model : 40386.7129578209
+Day 92 : 43434.0 - Model : 42483.73324474722
+Day 93 : 45973.0 - Model : 45505.62803494422
+Day 94 : 48285.0 - Model : 46469.70608645544
+Day 95 : 50879.0 - Model : 50352.801378851305
+Day 96 : 52991.0 - Model : 54110.55695529141
+Day 97 : 55421.0 - Model : 59110.90279917655
+Day 98 : 58568.0 - Model : 60608.23109424133
+Day 99 : 61927.0 - Model : 65833.80516092494
+Day 100 : 65736.0 - Model : 65550.74261749558
+Day 101 : 70038.0 - Model : 70076.12589346268
+Day 102 : 73533.0 - Model : 71914.99027979022
+Day 103 : 76334.0 - Model : 75226.71327185293
+Day 104 : 80412.0 - Model : 80465.58108785785
+Day 105 : 83890.0 - Model : 86052.61644035432
+Day 106 : 87715.0 - Model : 88779.83475072555
+Day 107 : 92681.0 - Model : 94463.7051193383
+Day 108 : 97302.0 - Model : 96492.62465661379
+Day 109 : 101590.0 - Model : 103046.41577220183
+Day 110 : 106108.0 - Model : 107146.65205414034
+Day 111 : 111796.0 - Model : 113785.55734450574
+Day 112 : 118375.0 - Model : 117242.87957863352
+Day 113 : 124590.0 - Model : 122037.28878809154
+Day 114 : 131800.0 - Model : 127234.96960684279
+Day 115 : 138134.0 - Model : 131952.30749886652
+Day 116 : 144264.0 - Model : 139241.52254937644
+Day 117 : 151209.0 - Model : 149834.28623498784
+Day 118 : 159333.0 - Model : 160372.84418604933
+Day 119 : 168061.0 - Model : 168409.57666930903
+Day 120 : 177124.0 - Model : 180623.7239560429
+Day 121 : 187977.0 - Model : 186446.38310229988
+Day 122 : 196750.0 - Model : 195832.74650075322
+Day 123 : 205721.0 - Model : 206381.445136217
+Day 124 : 215855.0 - Model : 216185.01667128474
+Day 125 : 224665.0 - Model : 230616.7527497819
+Day 126 : 238339.0 - Model : 241709.28008745462
+Day 127 : 250687.0 - Model : 253181.4062302049
+Day 128 : 264184.0 - Model : 264850.7180088367
+Day 129 : 276242.0 - Model : 272055.6427364547
+Day 130 : 287796.0 - Model : 290453.3277237856
+Day 131 : 298292.0 - Model : 304116.4951823773
+Day 132 : 311049.0 - Model : 321923.4874503315
+Day 133 : 324221.0 - Model : 335602.0379949087
+Day 134 : 337594.0 - Model : 349300.8484547995
+Day 135 : 350879.0 - Model : 358968.9988367572
+Day 136 : 364328.0 - Model : 369386.3100028379
+Day 137 : 373628.0 - Model : 386501.8459533902
+Day 138 : 381798.0 - Model : 394977.03159977053
+Day 139 : 394948.0 - Model : 410416.3095889449
+Day 140 : 408052.0 - Model : 426250.5692132804
+Day 141 : 421996.0 - Model : 425344.36373118975
+Day 142 : 434200.0 - Model : 438853.83342307684
+Day 143 : 445433.0 - Model : 437697.08923130826
+Day 144 : 452529.0 - Model : 453466.8009394421
+Day 145 : 459761.0 - Model : 466203.2063663228
+Day 146 : 471123.0 - Model : 482855.60267887445
+Day 147 : 482169.0 - Model : 490702.5114869497
+Day 148 : 493183.0 - Model : 499053.1743149082
+Day 149 : 503290.0 - Model : 503138.7652474487
+Day 150 : 511485.0 - Model : 510568.0196161458
+Day 151 : 516862.0 - Model : 516898.7485664159
+Day 152 : 521318.0 - Model : 531306.3569505663
+Day 153 : 529877.0 - Model : 540262.1064090737
+Day 154 : 538184.0 - Model : 546102.9130671842
+Day 155 : 545476.0 - Model : 553110.2879280127
+Day 156 : 553188.0 - Model : 549185.0981552079
+Day 157 : 559859.0 - Model : 555805.245266229
+Day 158 : 563598.0 - Model : 559319.3452120689
+Day 159 : 566109.0 - Model : 571394.9972004946
+Day 160 : 568919.0 - Model : 577148.3900588342
+Day 161 : 572865.0 - Model : 582210.8897017372
+Day 162 : 579140.0 - Model : 586608.3384075478
+Day 163 : 583653.0 - Model : 584423.9341033688
+Day 164 : 587345.0 - Model : 585361.0218304466
+Day 165 : 589886.0 - Model : 585624.2073061514
+Day 166 : 592144.0 - Model : 591712.1122525927
+Day 167 : 596060.0 - Model : 597026.4736869382
+Day 168 : 599940.0 - Model : 597393.8349146096
+Day 169 : 603338.0 - Model : 600166.54099427
+Day 170 : 607045.0 - Model : 598954.4665708215
+Day 171 : 609773.0 - Model : 602620.2586997336
+Day 172 : 611450.0 - Model : 608633.7650215658
+Day 173 : 613017.0 - Model : 613540.9158590036

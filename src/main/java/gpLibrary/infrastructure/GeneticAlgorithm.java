@@ -9,7 +9,12 @@ public class GeneticAlgorithm<T> {
 
     private final int _maxPopulationSize;
     private List<PopulationMember<T>> _population;
-    private final ITreeManager<T> _treeManager;
+
+    public void set_treeManager(ITreeManager<T> _treeManager) {
+        this._treeManager = _treeManager;
+    }
+
+    private ITreeManager<T> _treeManager;
     private int _tournamentSize;
     private int _numGenerations;
     private double _mutationRate;
@@ -148,9 +153,7 @@ public class GeneticAlgorithm<T> {
         double generationsSinceLastImprovement = 0;
 
         for (int i = 0; i < _numGenerations; i++) {
-
-            System.out.println("=========================================");
-            if (this.print) System.out.println("Generation " + i);
+            if (this.print) System.out.println("=========================================\nGeneration " + i);
 
             PopulationMember<T> bestTree = _treeManager.getBest();
             if(bestTree.fitness < overallBestTreeFitness)
@@ -160,24 +163,25 @@ public class GeneticAlgorithm<T> {
                 generationsSinceLastImprovement = 0;
                 bestTreeInGeneration = bestTree.getCopy();
             }else{
-                if(++generationsSinceLastImprovement == 150){
-                    System.out.println("No improvement in the last 150 generations, aborting run");
+                if(++generationsSinceLastImprovement == 500){
+                    System.out.println("No improvement in the last 500 generations, aborting run");
                     break;
                 }
             }
-            System.out.println("Best Fitness: " + bestTree.fitness);
-            System.out.println("Heuristic Combination: " + bestTree.tree.getCombination());
-            System.out.println("\nStatistics");
-            System.out.println("------------------------------------------");
-            _treeManager.printLatestStatistics();
-            System.out.println("*****************************************");
-            System.out.println("Overall best: Generation " + overallBestGeneration + " - " + overallBestTreeFitness);
-            System.out.println("*****************************************");
-            System.out.println("=========================================");
+            if (this.print) System.out.println("Best Fitness: " + bestTree.fitness);
+            if (this.print) System.out.println("Heuristic Combination: " + bestTree.tree.getCombination());
+            if (this.print) System.out.println("\nStatistics");
+            if (this.print) System.out.println("------------------------------------------");
+            if (this.print) _treeManager.printLatestStatistics();
+            if (this.print) System.out.println("*****************************************");
+            if (this.print) System.out.println("Overall best: Generation " + overallBestGeneration + " - " + overallBestTreeFitness);
+            if (this.print) System.out.println("*****************************************");
+            if (this.print) System.out.println("=========================================");
 
             evolvePopulation();
         }
 
+        System.out.println("Overall best: Generation " + overallBestGeneration + " - " + overallBestTreeFitness);
         return bestTreeInGeneration;
     }
 

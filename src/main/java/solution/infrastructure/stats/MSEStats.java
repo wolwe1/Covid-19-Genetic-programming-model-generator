@@ -86,7 +86,7 @@ public class MSEStats implements IStatisticsPackage<Double> {
         double mae = 0;
 
         int numberOfEntriesInTree = tree.tree.getNumberOfPossibleLeafNodes();
-        int entriesInTheFutureToGuess = (numberOfEntriesInTree + _lookAhead) - 1;
+        int entriesInTheFutureToGuess = (numberOfEntriesInTree + _lookAhead);
 
 
         CovidTerminal constant = getConstant(_lookAhead, _covidEntries);
@@ -108,7 +108,7 @@ public class MSEStats implements IStatisticsPackage<Double> {
 
         _mseValues.add(mse);
         _maeValues.add(mae);
-        _averageMAEValues.add( mae/entriesInTheFutureToGuess);
+        _averageMAEValues.add( mae/_covidEntries.size() - (numberOfEntriesInTree + _lookAhead));
         _names.add(tree.id);
     }
 
